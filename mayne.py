@@ -19,7 +19,9 @@ def ribosome(mRNA_sequence):
     for b in range(0, len(mRNA_sequence), 3):
 
         # saves calculation time if a stop codon is encountered
-        if STP_position <= -1:
+        if STP_position > -1:
+            break
+        else:
 
             # assigns the codon to three elements depending on the index of b->b+3
             # translates that through tRNA to an amino acid
