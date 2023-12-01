@@ -6,45 +6,46 @@ import random
 
 
 
-# inputs mRNA base pairs ["U", "A", "G"] returns amino acids as translated by a ribosome ["MET"]
+# inputs mRNA base pairs ["A", "U", "G"] returns amino acids as translated by a ribosome ["MET"]
 def ribosome(mRNA_sequence):
 
-    # holds variables for the translator to remember
+    # initialize vars
     amino_acid_sequence = []
-    amino_acid_index = 0
     MET_position = -1
-    STP_position = -1
 
-    # iterates through the indexes of the mRNA sequence 3 at a time until it has reached the end [0, 3, 6]
-    for b in range(0, len(mRNA_sequence), 3):
+    # Find the position of the start codon "AUG", pass if there are no more amino acids to properly index
+    try:
+        for i in range(len(mRNA_sequence) - 2):
+            if mRNA_sequence[i:i + 3] == ["A", "U", "G"]:
+                MET_position = i
+                break
 
-        # saves calculation time if a stop codon is encountered
-        if STP_position > -1:
-            break
-        else:
+    # if loop encounter an index error, the mRNA is non coding
+    except IndexError:
+        return []
 
-            # assigns the codon to three elements depending on the index of b->b+3
-            # translates that through tRNA to an amino acid
-            codon = mRNA_sequence[b:b+3]
+    # read only if MET has been found
+    if MET_position > -1:
+
+        # iterates though mRNA from the MET_position to the end
+        for i in range(MET_position, len(mRNA_sequence), 3):
+
+            # grab 3 bases and translate them
+            codon = mRNA_sequence[i:i+3]
             amino_acid = tRNA(codon)
 
-            # check for start/stop codon and save their index
-            if amino_acid == "MET":
-                MET_position = amino_acid_index
+            # Check for stop codon; break if found, append amino acids if not
             if amino_acid == "STP":
-                STP_position = amino_acid_index
-
-            # If MET codon found, transcribe current codon
-            # STP_position check still needed for
-            elif MET_position > -1 and STP_position <= -1:
+                break
+            else:
                 amino_acid_sequence.append(amino_acid)
 
-            # update index to prepare for the next codon
-            amino_acid_index += 1
+    # if MET_position was never found
+    else:
+        return []
 
-    # return amino acid sequence once all codons have been translated
+    # if translation has completed
     return amino_acid_sequence
-
 
 
 # mRNA codon is ["A", "U", "G"], amino acid is ["MET"]
@@ -240,7 +241,6 @@ nested_polypeptide = []
 output = LAB_Polymerase()
 for n in output:
     nested_polypeptide.append(ribosome(mRNA_polymerase(DNA_Polymerase(n))))
-print(nested_polypeptide)
 
-
-# Add dynamic MET reading to set the frameshift for the ribosome rathe that ::3 slicing
+for _ in range(len(nested_polypeptide)):
+    print(len(nested_polypeptide[_]))
