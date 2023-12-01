@@ -6,6 +6,9 @@ import random
 
 
 
+########################################################################################################################
+#                                           modify this to be cleaner                                                  #
+
 # inputs mRNA base pairs ["A", "U", "G"] returns amino acids as translated by a ribosome ["MET"]
 def ribosome(mRNA_sequence):
 
@@ -13,7 +16,7 @@ def ribosome(mRNA_sequence):
     amino_acid_sequence = []
     MET_position = -1
 
-    # Find the position of the start codon "AUG", pass if there are no more amino acids to properly index
+    # Find the position of the start codon "AUG", return if there are no more amino acids to properly index
     try:
         for i in range(len(mRNA_sequence) - 2):
             if mRNA_sequence[i:i + 3] == ["A", "U", "G"]:
@@ -49,6 +52,9 @@ def ribosome(mRNA_sequence):
     # if translation has completed
     return amino_acid_sequence
 
+#                                           modify this to be cleaner                                                  #
+########################################################################################################################
+
 
 
 # mRNA codon is ["A", "U", "G"], amino acid is ["MET"]
@@ -82,21 +88,13 @@ def tRNA(codon):
 
 # translates DNA to mRNA
 # if DNA is ["T","A","C"], mRNA is ["A","U","G"]
-def mRNA_polymerase(DNA_Sequeence):
+def mRNA_polymerase(DNA_Sequence):
 
-    mRNA_sequence = []
-    for b in DNA_Sequeence:
-        if b == "T": # turns to A
-            b = "A"
-        elif b == "C": # turns to G
-            b = "G"
-        elif b == "A": # turns to U
-            b = "U"
-        elif b == "G": # turns to C
-            b = "G"
-        else:
-            b = "E" # handles unknown mutations
-        mRNA_sequence.append(b)
+    # mapping DNA to mRNA bases
+    mapping = {"T": "A", "C": "G", "A": "U", "G": "C", "E": "E"}
+
+    # iterates through DNA and maps it to mRNA
+    mRNA_sequence = [mapping[m] for m in DNA_Sequence]
 
     # return translated mRNA
     return mRNA_sequence
@@ -105,53 +103,51 @@ def mRNA_polymerase(DNA_Sequeence):
 
 # possibly temporary function, when given a DNA sequence, converts either point or frame shift mutations at a random
 # point in the DNA genome
-def DNA_mutation_factor(DNA_Sequence):
+def DNA_mutation_factor(DNA_Sequence, num_iterations=3):
 
     # assumes each codon is 300 base pairs long
-    deletion_chance = 0.0065
-    insertion_chance = 0.0035
-    substitution_chance = 0.01
+    deletion_chance = 0.65
+    insertion_chance = 0.4
+    substitution_chance = 0.95
 
-    # Check for deletion
-    if random.random() < deletion_chance:
-        delete_position = random.randint(0, len(DNA_Sequence) - 1)
-        del DNA_Sequence[delete_position]
+    # by default produces 6 mutations
+    for _ in range(num_iterations):
+        # Check for deletion
+        if random.random() < deletion_chance:
+            delete_position = random.randint(0, len(DNA_Sequence) - 1)
+            del DNA_Sequence[delete_position]
 
-    # Check for insertion
-    if random.random() < insertion_chance:
-        insert_position = random.randint(0, len(DNA_Sequence))
-        inserted_base = random.choice(["A", "G", "T", "C"])
-        DNA_Sequence.insert(insert_position, inserted_base)
+        # Check for insertion
+        if random.random() < insertion_chance:
+            insert_position = random.randint(0, len(DNA_Sequence))
+            inserted_base = random.choice(["A", "G", "T", "C"])
+            DNA_Sequence.insert(insert_position, inserted_base)
 
-    # Check for substitution
-    if random.random() < substitution_chance:
-        substitute_position = random.randint(0, len(DNA_Sequence) - 1)
-        substituted_base = random.choice(["A", "G", "T", "C"])
-        DNA_Sequence[substitute_position] = substituted_base
+        # Check for substitution
+        if random.random() < substitution_chance:
+            substitute_position = random.randint(0, len(DNA_Sequence) - 1)
+            substituted_base = random.choice(["A", "G", "T", "C"])
+            DNA_Sequence[substitute_position] = substituted_base
 
+    # returns mutated sequence
     return DNA_Sequence
+
+
 
 # converts an artifical genome (0123) to DNA base pairs (AGTC)
-def DNA_Polymerase(artifical_genome):
+def DNA_Polymerase(artificial_genome):
 
-    # create empty DNA sequence
-    DNA_Sequence = []
+    # maps artificial genome values to DNA base pairs
+    mapping = {0: "A", 1: "G", 2: "T", 3: "C", 4: "E"}
 
-    # convert artifical genome to base pairs
-    for d in artifical_genome:
-        if d == 0:
-            DNA_Sequence.append("A")
-        elif d == 1:
-            DNA_Sequence.append("G")
-        elif d == 2:
-            DNA_Sequence.append("T")
-        elif d == 3:
-            DNA_Sequence.append("C")
+    # iterates through artifical genome and converts to DNA base pairs
+    DNA_Sequence = [mapping[d] for d in artificial_genome]
 
-    # return converted list
+    # Return dna genome
     return DNA_Sequence
 
-
+########################################################################################################################
+#                                                   modify to be clean                                                 #
 
 # generates an artifical genome using player inputs
 def LAB_Polymerase():
@@ -165,7 +161,7 @@ def LAB_Polymerase():
 
             # prompts for strand length & count
             number_of_strands = int(input("How many strands of LAB genome would you like to create? "))
-            LAB_sequence_length = int(input("How long should each LAB genome be? "))
+            LAB_sequence_length = 300 #int(input("How long should each LAB genome be? "))
 
             # creates strands based on specificed length
             for n in range(number_of_strands):
@@ -203,12 +199,14 @@ def UXUI():
 
     # displays the average length
     print(f"average peptide length is {sum(polypepte_length)/len(polypepte_length)}")
+    print(nested_polypeptide[0], nested_polypeptide[1])
     return
+
+#                                           modify this to be cleaner                                                  #
+########################################################################################################################
 
 
 UXUI()
 
 
-
-# Mutations; DNA mutations -> Point mutations VS Insertion/Deletion mutations
 # golgi apperatus
