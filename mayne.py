@@ -54,118 +54,29 @@ def ribosome(mRNA_sequence):
 # mRNA codon is ["A", "U", "G"], amino acid is ["MET"]
 def tRNA(codon):
 
-    # try statement to avoid errors if there is not enough bases in the codon
-    try:
+    # lookup dict containing all corresponding amino acid sequences
+    codon_table = {
+        "UUU": "PHE", "UUC": "PHE",
+        "UUA": "LEU", "UUG": "LEU", "CUU": "LEU", "CUC": "LEU", "CUA": "LEU", "CUG": "LEU",
+        "UCU": "SER", "UCC": "SER", "UCA": "SER", "UCG": "SER",
+        "UAU": "TYR", "UAC": "TYR", "UAA": "STP", "UAG": "STP",
+        "UGU": "CYS", "UGC": "CYS", "UGA": "STP", "UGG": "TRP",
+        "CUU": "LEU", "CUC": "LEU", "CUA": "LEU", "CUG": "LEU",
+        "CCU": "PRO", "CCC": "PRO", "CCA": "PRO", "CCG": "PRO",
+        "CAU": "HIS", "CAC": "HIS", "CAA": "GLU", "CAG": "GLU",
+        "CGU": "ARG", "CGC": "ARG", "CGA": "ARG", "CGG": "ARG",
+        "AUU": "ILE", "AUC": "ILE", "AUA": "ILE", "AUG": "MET",
+        "ACU": "THR", "ACC": "THR", "ACA": "THR", "ACG": "THR",
+        "AAU": "ASN", "AAC": "ASN", "AAA": "LYS", "AAG": "LYS",
+        "AGU": "SER", "AGC": "SER", "AGA": "ARG", "AGG": "ARG",
+        "GUU": "VAL", "GUC": "VAL", "GUA": "VAL", "GUG": "VAL",
+        "GCU": "ALA", "GCC": "ALA", "GCA": "ALA", "GCG": "ALA",
+        "GAU": "ASP", "GAC": "ASP", "GAA": "GLU", "GAG": "GLU",
+        "GGU": "GLY", "GGC": "GLY", "GGA": "GLY", "GGG": "GLY",
+    }
 
-        # enter depending on first base in codon ()
-        if codon[0] == "U":
-
-            # enters depending on second base in codon (U)
-            if codon[1] == "U":
-
-                # enters depending on third base in codon (UU)
-                if codon[2] in ("U", "C"):
-                    return "PHE"  # Phenylalanine
-                elif codon[2] in ("A", "G"):
-                    return "LEU"  # Leucine
-
-            # enters depending on second base in codon (U)
-            elif codon[1] == "C":
-                return "SER"  # Serine
-            elif codon[1] == "A":
-
-                # enters depending on third base in codon (UA)
-                if codon[2] in ("U", "C"):
-                    return "TYR"  # Tyrosine
-                elif codon[2] in ("A", "G"):
-                    return "STP"  # Stop
-
-            # enters depending on second base in codon (U)
-            elif codon[1] == "G":
-
-                # enters depending on third base in codon (UG)
-                if codon[2] in ("U", "C"):
-                    return "CYS"  # Cysteine
-                elif codon[2] == "A":
-                    return "STP"  # Stop
-                elif codon[2] == "G":
-                    return "TRP"  # Tryptophan
-
-        # enters depending on first base in codon ()
-        elif codon[0] == "C":
-
-            # enters depending on second base in codon (C)
-            if codon[1] == "U":
-                return "LEU"  # Leucine
-            elif codon[1] == "C":
-                return "PRO"  # Proline
-            elif codon[1] == "A":
-
-                # enters depending on third base in codon (CA)
-                if codon[2] in ("U", "C"):
-                    return "HIS"  # Histidine
-                elif codon[2] in ("A", "G"):
-                    return "GLU"  # Glutamine
-
-            # enters depending on second base in codon (C)
-            elif codon[1] == "G":
-                return "ARG"  # Arginine
-
-        # enters depending on first base in codon ()
-        elif codon[0] == "A":
-
-            # enters depending on second base in codon (A)
-            if codon[1] == "U":
-
-                # enters depending on the third base in codon (AU)
-                if codon[2] in ("U", "C", "A"):
-                    return "ILE"  # Isoleucine
-                elif codon[2] == "G":
-                    return "MET"  # Methionine (Start)
-
-            # enters depending on second base in codon (A)
-            elif codon[1] == "C":
-                return "THR"  # Threonine
-            elif codon[1] == "A":
-
-                # enters depending on third base in codon (AA)
-                if codon[2] in ("U", "C"):
-                    return "ASN"  # Asparagine
-                elif codon[2] in ("A", "G"):
-                    return "LYS"  # Lysine
-
-            # enters depending on second base in codon (A)
-            elif codon[1] == "G":
-
-                # enters depending on third base in codon (AG)
-                if codon[2] in ("U", "C"):
-                    return "SER"  # Serine
-                elif codon[2] in ("A", "G"):
-                    return "ARG"  # Arginine
-
-        # enters depending on first base in codon ()
-        elif codon[0] == "G":
-
-            # enters depending on second base in codon (G)
-            if codon[1] == "U":
-                return "VAL"  # Valine
-            elif codon[1] == "C":
-                return "ALA"  # Alanine
-            elif codon[1] == "A":
-
-                # enters depending on third base in codon (GA)
-                if codon[2] in ("U", "C"):
-                    return "ASP"  # Aspartic Acid
-                elif codon[2] in ("A", "G"):
-                    return "GLU"  # Glutamic Acid
-
-            # enters depending on second base in codon (G)
-            elif codon[1] == "G":
-                return "GLY"  # Glycine
-
-    # if there is not enough base pairs in the codon, handle the error
-    except IndexError:
-        return "ERR" # handles unknown mutations
+    # return a join version of the codon, ERR if not found
+    return codon_table.get("".join(codon), "ERR")
 
 
 
@@ -196,13 +107,27 @@ def mRNA_polymerase(DNA_Sequeence):
 # point in the DNA genome
 def DNA_mutation_factor(DNA_Sequence):
 
-    # defines the change that any one base pair will be effected by a mutation based on mutation type
-    deletion_chance = -1
-    insertion_chance = -1
-    substitution_chance = -1
+    # assumes each codon is 300 base pairs long
+    deletion_chance = 0.0065
+    insertion_chance = 0.0035
+    substitution_chance = 0.01
 
-    #
+    # Check for deletion
+    if random.random() < deletion_chance:
+        delete_position = random.randint(0, len(DNA_Sequence) - 1)
+        del DNA_Sequence[delete_position]
 
+    # Check for insertion
+    if random.random() < insertion_chance:
+        insert_position = random.randint(0, len(DNA_Sequence))
+        inserted_base = random.choice(["A", "G", "T", "C"])
+        DNA_Sequence.insert(insert_position, inserted_base)
+
+    # Check for substitution
+    if random.random() < substitution_chance:
+        substitute_position = random.randint(0, len(DNA_Sequence) - 1)
+        substituted_base = random.choice(["A", "G", "T", "C"])
+        DNA_Sequence[substitute_position] = substituted_base
 
     return DNA_Sequence
 
