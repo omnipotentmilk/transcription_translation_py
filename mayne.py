@@ -50,6 +50,7 @@ def ribosome(mRNA_sequence):
     return amino_acid_sequence
 
 
+
 # mRNA codon is ["A", "U", "G"], amino acid is ["MET"]
 def tRNA(codon):
 
@@ -186,29 +187,44 @@ def mRNA_polymerase(DNA_Sequeence):
             b = "E" # handles unknown mutations
         mRNA_sequence.append(b)
 
+    # return translated mRNA
     return mRNA_sequence
 
 
+
+# possibly temporary function, when given a DNA sequence, converts either point or frame shift mutations at a random
+# point in the DNA genome
+def DNA_mutation_factor(DNA_Sequence):
+
+    # defines the change that any one base pair will be effected by a mutation based on mutation type
+    deletion_chance = -1
+    insertion_chance = -1
+    substitution_chance = -1
+
+    #
+
+
+    return DNA_Sequence
 
 # converts an artifical genome (0123) to DNA base pairs (AGTC)
 def DNA_Polymerase(artifical_genome):
 
     # create empty DNA sequence
-    DNA_Sequeence = []
+    DNA_Sequence = []
 
     # convert artifical genome to base pairs
     for d in artifical_genome:
         if d == 0:
-            DNA_Sequeence.append("A")
+            DNA_Sequence.append("A")
         elif d == 1:
-            DNA_Sequeence.append("G")
+            DNA_Sequence.append("G")
         elif d == 2:
-            DNA_Sequeence.append("T")
+            DNA_Sequence.append("T")
         elif d == 3:
-            DNA_Sequeence.append("C")
+            DNA_Sequence.append("C")
 
     # return converted list
-    return DNA_Sequeence
+    return DNA_Sequence
 
 
 
@@ -264,9 +280,10 @@ def UXUI():
     print(f"average peptide length is {sum(polypepte_length)/len(polypepte_length)}")
     return
 
-for n in range(5):
-    UXUI()
+
+UXUI()
 
 
 
 # Mutations; DNA mutations -> Point mutations VS Insertion/Deletion mutations
+# golgi apperatus
