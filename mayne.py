@@ -37,6 +37,8 @@ def ribosome(mRNA_sequence):
             # Check for stop codon; break if found, append amino acids if not
             if amino_acid == "STP":
                 break
+            elif amino_acid == "ERR":
+                pass
             else:
                 amino_acid_sequence.append(amino_acid)
 
@@ -228,6 +230,9 @@ def LAB_Polymerase():
             for n in range(number_of_strands):
                 random_num_sequence = random.choices(range(0, 4), k=LAB_sequence_length)
                 nested_LAB_genome.append(random_num_sequence)
+
+            # notifies user that their artifical genome has finished generating
+            print("Finished generating sequences, sending to cell.")
             break
 
         # handles input errors
@@ -237,10 +242,31 @@ def LAB_Polymerase():
     # returns genome after the function has finished
     return nested_LAB_genome
 
-nested_polypeptide = []
-output = LAB_Polymerase()
-for n in output:
-    nested_polypeptide.append(ribosome(mRNA_polymerase(DNA_Polymerase(n))))
 
-for _ in range(len(nested_polypeptide)):
-    print(len(nested_polypeptide[_]))
+
+# outputs useful information regarding genomes
+def UXUI():
+
+    # holds outputs to be displayed
+    nested_polypeptide = []
+    polypepte_length = []
+    output = LAB_Polymerase()
+
+    # iterates through every amino acid sequence generated and appends it to a nested list with variable index
+    for n in output:
+        nested_polypeptide.append(ribosome(mRNA_polymerase(DNA_Polymerase(n))))
+
+    # finds the length of each polypeptide in the nested polypeptide list
+    for _ in range(len(nested_polypeptide)):
+        polypepte_length.append(len(nested_polypeptide[_]))
+
+    # displays the average length
+    print(f"average peptide length is {sum(polypepte_length)/len(polypepte_length)}")
+    return
+
+for n in range(5):
+    UXUI()
+
+
+
+# Mutations; DNA mutations -> Point mutations VS Insertion/Deletion mutations
