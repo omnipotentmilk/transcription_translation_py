@@ -241,3 +241,6 @@ output = LAB_Polymerase()
 for n in output:
     nested_polypeptide.append(ribosome(mRNA_polymerase(DNA_Polymerase(n))))
 print(nested_polypeptide)
+
+
+# Add dynamic MET reading to set the frameshift for the ribosome rathe that ::3 slicing
