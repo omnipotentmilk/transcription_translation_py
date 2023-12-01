@@ -29,18 +29,21 @@ def ribosome(mRNA_sequence):
                 MET_position = amino_acid_index
             if amino_acid == ["STP"]:
                 STP_position = amino_acid_index
-            amino_acid_index += 1
 
             # If MET codon found, transcribe current codon
-            if MET_position > -1:
+            # STP_position check still needed for
+            elif MET_position > -1 and STP_position <= -1:
                 amino_acid_sequence.extend(amino_acid)
+
+            # update index to prepare for the next codon
+            amino_acid_index += 1
 
     # return amino acid sequence once all codons have been translated
     return amino_acid_sequence
 
 
 
-# inputs mRNA ["U", "U", "U"] outputs amino acids ["MET"]
+# mRNA codon is ["A", "U", "G"], amino acid is ["MET"]
 def tRNA(codon):
 
     # try statement to avoid errors if there is not enough bases in the codon
@@ -159,9 +162,27 @@ def tRNA(codon):
 
 
 # translates DNA to mRNA
-def mRNA_polymerase():
-    return
+# if DNA is ["T","A","C"], mRNA is ["A","U","G"]
+def mRNA_polymerase(DNA_Sequeence):
+
+    mRNA_sequence = []
+    for b in DNA_Sequeence:
+        if b == "T": # turns to A
+            b = "A"
+        elif b == "C": # turns to G
+            b = "G"
+        elif b == "A": # turns to U
+            b = "U"
+        elif b == "G": # turns to C
+            b = "G"
+        else:
+            b = "E"
+        mRNA_sequence.append(b)
+
+    return mRNA_sequence
 
 
 
+
+print(mRNA_polymerase(["T","A","C"]))
 print(ribosome(["A","A","A","A","U","G","C","U","C","U","A","G","A","A","A","A"]))
