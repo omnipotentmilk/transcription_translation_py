@@ -12,44 +12,31 @@ import random
 # inputs mRNA base pairs ["A", "U", "G"] returns amino acids as translated by a ribosome ["MET"]
 def ribosome(mRNA_sequence):
 
-    # initialize vars
-    amino_acid_sequence = []
-    MET_position = -1
-
     # Find the position of the start codon "AUG", return if there are no more amino acids to properly index
     try:
+        MET_position = -1
         for i in range(len(mRNA_sequence) - 2):
             if mRNA_sequence[i:i + 3] == ["A", "U", "G"]:
                 MET_position = i
                 break
-
-    # if loop encounter an index error, the mRNA is non coding
     except IndexError:
         return []
 
-    # read only if MET has been found
-    if MET_position > -1:
+    # iterates from the MET_position to end. return sequence when finished.
+    amino_acid_sequence = []
+    for i in range(MET_position, len(mRNA_sequence), 3):
 
-        # iterates though mRNA from the MET_position to the end
-        for i in range(MET_position, len(mRNA_sequence), 3):
+        # grab 3 bases and translate them
+        codon = mRNA_sequence[i:i+3]
+        amino_acid = tRNA(codon)
 
-            # grab 3 bases and translate them
-            codon = mRNA_sequence[i:i+3]
-            amino_acid = tRNA(codon)
-
-            # Check for stop codon; break if found, append amino acids if not
-            if amino_acid == "STP":
-                break
-            elif amino_acid == "ERR":
-                pass
-            else:
-                amino_acid_sequence.append(amino_acid)
-
-    # if MET_position was never found
-    else:
-        return []
-
-    # if translation has completed
+        # Check for stop codon; break if found, append amino acids if not.
+        if amino_acid == "STP":
+            break
+        elif amino_acid == "ERR":
+            pass
+        else:
+            amino_acid_sequence.append(amino_acid)
     return amino_acid_sequence
 
 #                                           modify this to be cleaner                                                  #
@@ -199,7 +186,7 @@ def UXUI():
 
     # displays the average length
     print(f"average peptide length is {sum(polypepte_length)/len(polypepte_length)}")
-    print(nested_polypeptide[0], nested_polypeptide[1])
+    print(nested_polypeptide[0])
     return
 
 #                                           modify this to be cleaner                                                  #
