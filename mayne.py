@@ -4,10 +4,14 @@ import random
 #                                         Transcription / Translation area                                             #
 ########################################################################################################################
 
+def rough_ER(polypeptide_sequence):
+    # Phe, Leu, Ile, Met, Val, Ser, Pro, Thr, Ala, Tyr, Stp, His, Gln, Asn, Lys, Asp, Glu, Cys, Arg, Gly
+    # Glycoproteins
+    # Lipoproteins
+    # Func Groups
+    return
 
 
-########################################################################################################################
-#                                           modify this to be cleaner                                                  #
 
 # inputs mRNA base pairs ["A", "U", "G"] returns amino acids as translated by a ribosome ["MET"]
 def ribosome(mRNA_sequence):
@@ -38,9 +42,6 @@ def ribosome(mRNA_sequence):
         else:
             amino_acid_sequence.append(amino_acid)
     return amino_acid_sequence
-
-#                                           modify this to be cleaner                                                  #
-########################################################################################################################
 
 
 
@@ -133,8 +134,7 @@ def DNA_Polymerase(artificial_genome):
     # Return dna genome
     return DNA_Sequence
 
-########################################################################################################################
-#                                                   modify to be clean                                                 #
+
 
 # generates an artifical genome using player inputs
 def LAB_Polymerase():
@@ -189,11 +189,8 @@ def UXUI():
     print(nested_polypeptide[0])
     return
 
-#                                           modify this to be cleaner                                                  #
-########################################################################################################################
 
 
 UXUI()
 
 
-# golgi apperatus
