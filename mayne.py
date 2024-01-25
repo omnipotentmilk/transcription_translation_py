@@ -146,8 +146,8 @@ def DNA_Polymerase(artificial_genome):
     # Return dna genome
     return DNA_Sequence
 
-########################################################################################################################
-#                                                   modify to be clean                                                 #
+def Golgi_Apperati():
+    return
 
 # generates an artifical genome using player inputs
 def LAB_Polymerase():
@@ -202,11 +202,15 @@ def UXUI():
     print(nested_polypeptide[0], nested_polypeptide[1])
     return
 
-#                                           modify this to be cleaner                                                  #
-########################################################################################################################
 
 
 UXUI()
 
 
-# golgi apperatus
+
+# golgi apperatus -> polypeptides (proteins) -> glycoproteins;
+# a way to select which glycoproteins will be on the surface of the cell
+# a way to create a virus and a cell, each with specific glycoproteins
+# a way to detect when a virus and a cell glycoproteins match
+# a way to specify the reproduction of a virus with a succesfully matched cell
+# a way to create a new generation with the updated cell and virus count, including mutations
